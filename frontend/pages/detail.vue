@@ -99,10 +99,14 @@ export default {
     };
   },
 
-  mounted() {
+  created() {
     this.$root.$on("searchCategories", (searchQuery) => {
       this.loadTodosFromLocalStorage(searchQuery);
     });
+  },
+
+  mounted() {
+    this.loadTodosFromLocalStorage();
   },
 
   computed: {

@@ -101,10 +101,15 @@ export default {
       newCategory: "",
     };
   },
-  mounted() {
+
+  created() {
     this.$root.$on("searchCategories", (searchQuery) => {
       this.loadCategoriesFromLocalStorage(searchQuery);
     });
+  },
+
+  mounted() {
+    this.loadCategoriesFromLocalStorage();
   },
 
   methods: {
