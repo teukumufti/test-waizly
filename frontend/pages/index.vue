@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-between">
-      <h3 class="text-white font-semibold text-2xl">Todo List</h3>
+      <h3 class="font-bold text-2xl">Todo List</h3>
       <Search />
     </div>
     <div class="bg-white rounded p-5">
@@ -12,7 +12,7 @@
           <form class="flex" @submit.prevent="addCategory">
             <input
               type="text"
-              class="bg-[#14C1C1]/50 text-white rounded px-3 py-1 text-base focus:outline-none placeholder:italic placeholder:font-thin"
+              class="bg-[#14C1C1]/50 rounded px-3 py-1 text-base focus:outline-none placeholder:italic placeholder:font-thin"
               placeholder="add new category"
               v-model="newCategory"
             />
