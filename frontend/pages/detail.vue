@@ -65,6 +65,9 @@
           <input
             ref="categoryInput"
             class="font-bold text-lg text-white outline-none bg-transparent"
+            :class="{
+              'line-through': todo.completed,
+            }"
             :value="todo.name"
             @keydown.enter="updateTodo(index, $event.target.value)"
           />
@@ -72,9 +75,10 @@
             type="checkbox"
             class="custom-checkbox"
             :id="'checkbox-' + index"
-            v-model="todo.completed"
-            @change="updateTodoStatus(index)"
+            :checked="todo.completed"
+            @change="todoCompleted(index)"
           />
+
           <label :for="'checkbox-' + index"></label>
         </div>
 
@@ -154,6 +158,12 @@ export default {
       if (process.client) {
         localStorage.setItem("todos", JSON.stringify(this.todos));
       }
+    },
+
+    todoCompleted(index) {
+      const todo = this.todos[index];
+      todo.completed = !todo.completed;
+      this.saveTodosToLocalStorage();
     },
 
     loadTodosFromLocalStorage(searchQuery = "") {
