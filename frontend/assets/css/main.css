@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-  background-color: aqua;
+  background: linear-gradient(to right, #14c1c1, #5777de);
 }
