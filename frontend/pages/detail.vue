@@ -100,7 +100,9 @@ export default {
   },
 
   mounted() {
-    this.loadTodosFromLocalStorage();
+    this.$root.$on("searchCategories", (searchQuery) => {
+      this.loadTodosFromLocalStorage(searchQuery);
+    });
   },
 
   computed: {
@@ -140,12 +142,17 @@ export default {
         localStorage.setItem("todos", JSON.stringify(this.todos));
       }
     },
-
-    loadTodosFromLocalStorage() {
+    loadTodosFromLocalStorage(searchQuery = "") {
       if (process.client) {
         const storedTodos = localStorage.getItem("todos");
         if (storedTodos) {
-          this.todos = JSON.parse(storedTodos);
+          let todos = JSON.parse(storedTodos);
+          if (searchQuery !== "") {
+            todos = todos.filter((todo) =>
+              todo.name.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+          }
+          this.todos = todos;
         }
       }
     },

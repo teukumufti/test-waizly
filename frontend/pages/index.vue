@@ -102,8 +102,11 @@ export default {
     };
   },
   mounted() {
-    this.loadCategoriesFromLocalStorage();
+    this.$root.$on("searchCategories", (searchQuery) => {
+      this.loadCategoriesFromLocalStorage(searchQuery);
+    });
   },
+
   methods: {
     addCategory() {
       if (this.newCategory) {
@@ -128,11 +131,17 @@ export default {
         localStorage.setItem("categories", JSON.stringify(this.categories));
       }
     },
-    loadCategoriesFromLocalStorage() {
+    loadCategoriesFromLocalStorage(searchQuery = "") {
       if (process.client) {
         const storedCategories = localStorage.getItem("categories");
         if (storedCategories) {
-          this.categories = JSON.parse(storedCategories);
+          let categories = JSON.parse(storedCategories);
+          if (searchQuery !== "") {
+            categories = categories.filter((category) =>
+              category.name.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+          }
+          this.categories = categories;
         }
       }
     },
