@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="animate__animated animate__fadeInLeft">
     <div class="flex justify-between">
       <NuxtLink to="/">
         <div class="flex items-center">
@@ -52,7 +52,7 @@
 
       <!-- list todo -->
       <div
-        class="flex my-5"
+        class="flex my-5 animate__animated animate__flipInX"
         v-for="(todo, index) in getFilteredTodos"
         :key="todo.id"
       >
@@ -98,6 +98,8 @@
 </template>
 
 <script>
+import "animate.css";
+
 export default {
   data() {
     return {

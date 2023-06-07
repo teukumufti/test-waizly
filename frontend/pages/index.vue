@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="animate__animated animate__fadeInLeft">
     <div class="flex justify-between">
       <h3 class="font-bold text-2xl">Todo List</h3>
       <Search />
@@ -35,7 +35,7 @@
 
       <!-- list category -->
       <div
-        class="flex my-5"
+        class="flex my-5 animate__animated animate__flipInX"
         v-for="(category, index) in categories"
         :key="category.name"
       >
@@ -94,6 +94,8 @@
 </template>
 
 <script>
+import "animate.css";
+
 export default {
   data() {
     return {
