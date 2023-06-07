@@ -6,6 +6,8 @@
         class="bg-white/75 rounded px-3 py-1 text-base focus:outline-none placeholder:italic placeholder:font-thin"
         placeholder="Search"
         aria-label="Search"
+        v-model="searchQuery"
+        @input="searchCategories"
       />
 
       <!--Search icon-->
@@ -26,3 +28,25 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      searchQuery: "",
+    };
+  },
+  methods: {
+    searchCategories() {
+      if (this.searchQuery === "") {
+        this.$parent.loadCategoriesFromLocalStorage();
+      } else {
+        const filteredCategories = this.$parent.categories.filter((category) =>
+          category.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+        this.$parent.categories = filteredCategories;
+      }
+    },
+  },
+};
+</script>
