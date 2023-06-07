@@ -37,7 +37,7 @@
       <div
         class="flex my-5"
         v-for="(category, index) in categories"
-        :key="category"
+        :key="category.name"
       >
         <div class="absolute bg-[#FFC700] p-2 rounded-l-sm h-[60px]"></div>
         <div
@@ -46,14 +46,14 @@
           <input
             ref="categoryInput"
             class="font-bold text-lg text-white outline-none bg-transparent"
-            :value="category"
+            :value="category.name"
             @keydown.enter="updateCategory(index, $event.target.value)"
           />
           <!-- go to detail -->
           <NuxtLink
             :to="{
               path: 'detail',
-              query: { category: category },
+              query: { category: category.name },
             }"
           >
             <div>
@@ -107,7 +107,10 @@ export default {
   methods: {
     addCategory() {
       if (this.newCategory) {
-        this.categories.push(this.newCategory);
+        this.categories.push({
+          name: this.newCategory,
+          todos: [],
+        });
         this.newCategory = "";
         this.saveCategoriesToLocalStorage();
       }
@@ -117,7 +120,7 @@ export default {
       this.saveCategoriesToLocalStorage();
     },
     updateCategory(index, value) {
-      this.categories[index] = value;
+      this.categories[index].name = value;
       this.saveCategoriesToLocalStorage();
     },
     saveCategoriesToLocalStorage() {

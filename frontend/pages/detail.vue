@@ -51,7 +51,11 @@
       </div>
 
       <!-- list todo -->
-      <div class="flex my-5" v-for="(todo, index) in todos" :key="todo">
+      <div
+        class="flex my-5"
+        v-for="(todo, index) in getFilteredTodos"
+        :key="todo.id"
+      >
         <div
           class="absolute bg-[#FFC700] p-2 rounded-l-sm h-[60px] max-h-[60px]"
         ></div>
@@ -61,7 +65,7 @@
           <input
             ref="categoryInput"
             class="font-bold text-lg text-white outline-none bg-transparent"
-            :value="todo"
+            :value="todo.name"
             @keydown.enter="updateTodo(index, $event.target.value)"
           />
           <div class="w-6 h-6 rounded-full bg-transparent border-2"></div>
@@ -94,26 +98,49 @@ export default {
       newTodo: "",
     };
   },
+
   mounted() {
     this.loadTodosFromLocalStorage();
   },
+
+  computed: {
+    getFilteredTodos() {
+      const category = this.$route.query.category;
+      return this.todos.filter((todo) => todo.category === category);
+    },
+  },
+
   methods: {
     addTodo() {
       if (this.newTodo) {
-        this.todos.push(this.newTodo);
+        const category = this.$route.query.category;
+        this.todos.push({
+          id: Date.now(),
+          name: this.newTodo,
+          completed: false,
+          category,
+        });
         this.newTodo = "";
         this.saveTodosToLocalStorage();
       }
     },
+
     deleteTodo(index) {
       this.todos.splice(index, 1);
       this.saveTodosToLocalStorage();
     },
+
+    updateTodoStatus(index) {
+      this.todos[index].completed = !this.todos[index].completed;
+      this.saveTodosToLocalStorage();
+    },
+
     saveTodosToLocalStorage() {
       if (process.client) {
         localStorage.setItem("todos", JSON.stringify(this.todos));
       }
     },
+
     loadTodosFromLocalStorage() {
       if (process.client) {
         const storedTodos = localStorage.getItem("todos");
