@@ -68,7 +68,14 @@
             :value="todo.name"
             @keydown.enter="updateTodo(index, $event.target.value)"
           />
-          <div class="w-6 h-6 rounded-full bg-transparent border-2"></div>
+          <input
+            type="checkbox"
+            class="custom-checkbox"
+            :id="'checkbox-' + index"
+            v-model="todo.completed"
+            @change="updateTodoStatus(index)"
+          />
+          <label :for="'checkbox-' + index"></label>
         </div>
 
         <!-- button delete -->
@@ -146,6 +153,7 @@ export default {
         localStorage.setItem("todos", JSON.stringify(this.todos));
       }
     },
+
     loadTodosFromLocalStorage(searchQuery = "") {
       if (process.client) {
         const storedTodos = localStorage.getItem("todos");
@@ -163,3 +171,24 @@ export default {
   },
 };
 </script>
+
+<style>
+.custom-checkbox {
+  display: none;
+}
+
+.custom-checkbox + label {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  border-color: white;
+}
+
+.custom-checkbox:checked + label {
+  background-color: #ffc700;
+}
+</style>
